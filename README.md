@@ -85,6 +85,14 @@ To run the test that uses an extension, you can run the following command:
 K6_BROWSER_ENABLED=true ./extension/k6 run 11.extension.js
 ```
 
+## Enabling debug logging
+
+If you encounter any issues during operation, you can enable debug logging by setting the following evironment variable:
+
+```shell
+export QUICKPIZZA_LOG_LEVEL=debug
+```
+
 ## Running a Prometheus instance
 
 If you want to stream the metrics to a Prometheus instance, you need, well, a Prometheus instance. You can use the following command to run a local one:
@@ -118,6 +126,18 @@ docker run --rm -i -p 3333:3333 -e QUICKPIZZA_OTLP_ENDPOINT=http://grafana-agent
 ```
 
 The `QUICKPIZZA_TRUST_CLIENT_TRACEID` environment variable instructs QuickPizza to trust client-provided Trace IDs, so all client-generated spans (if any) will show up in the trace.
+
+## Use an external database
+
+By default, QuickPizza stores all its data in an in-memory SQLite database. This allows for a quick start while still closely resembling a real world application. If you want to add an external database, you can set the `QUICKPIZZA_DB` environment variable to a supported connection string. Currently only PostgreSQL and SQLite is supported.
+
+Example connection strings:
+```shell
+# a remote PostgreSQL instance
+export QUICKPIZZA_DB="postgres://user:password@localhost:5432/database?sslmode=disable"
+# a local sqlite3 database
+export QUICKPIZZA_DB="quickpizza.db"
+```
 
 ## Deploy application to Kubernetes
 
